@@ -21,7 +21,36 @@ class ClientTest(unittest.TestCase):
     for quote in quotes:
       self.assertEqual(getDataPoint(quote), (quote['stock'],quote['top_bid']['price'], quote['top_ask']['price'], {quote['top_bid']['price']+ quote['top_ask']['price']}/2))
   """ ------------ Add more unit tests ------------ """
-    
+  
+  def test_getRatio_priceBZero(self):
+    price_a = 1309.2
+    price_b = 0
+    self.assertIsNone(getRatio(price_a, price_b))
+
+  def test_getRatio_priceAZero(self):
+    price_a = 0
+    price_b = 7376.68
+    self.assertEqual(getRatio(price_a, price_b), 0)
+
+  def test_getRatio_exactlyOne(self):
+    price_a = 5000.43
+    price_b = 5000.43
+    self.assertEqual(getRatio(price_a, price_b), 1)
+
+  def test_getRatio_greaterThan1(self):
+    price_a = 3560.48
+    price_b = 1456.39
+    self.assertGreater(getRatio(price_a, price_b), 1)
+
+  def test_getRatio_LessThan1(self):
+    price_a = 1456.96
+    price_b = 3560.48
+    self.assertLess(getRatio(price_a, price_b), 1)
+
+  def test_getRatio_exactlyOne(self):
+    price_a = 5000.43
+    price_b = 5000.43
+    self.assertEqual(getRatio(price_a, price_b), 1)
 
 
 
